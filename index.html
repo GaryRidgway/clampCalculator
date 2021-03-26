@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/calc.js"></script>
+  </head>
+  <body>
+    <div id='inputs' class='inputs'>
+      <label for="minwidth">Minimum width:</label>
+      <input type="number" id="minwidth" name="minimum width">px<br><br>
+      <label for="maxwidth">Maximum width:</label>
+      <input type="number" id="maxwidth" name="ending width">px<br><br>
+      <label for="minfont-size">Minimum font-size:</label>
+      <input type="number" id="minfont-size" name="minimum font-size">rem<br><br>
+      <label for="maxfont-size">Ending font-size:</label>
+      <input type="number" id="maxfont-size" name="ending font-size">rem<br><br>
+      <button id='calc_rule' type="button" onclick="calcRule()">Calculate clamp rule</button>
+    </div>
+    <div id='output' class='preformatted'></div>
+  </body>
+</html>

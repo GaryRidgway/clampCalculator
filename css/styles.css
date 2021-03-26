@@ -1,0 +1,16 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.inputs-box {
+  display: flex;
+}
+
+.preformatted {
+  padding: 15px;
+  font-family: monospace;
+  white-space: pre;
+  background-color: #ddd;
+  border: 1px solid rgb(201, 201, 201);
+  border-radius: 5px;
+}
