@@ -26,7 +26,7 @@ function calcIntercept() {
 function calcRule() {
   let slopeAtWidth = Math.round(calcSlope()*100 * 10000) / 10000;
   let intercept = Math.round(calcIntercept() * 10000) / 10000;
-  let operator = (intercept<0) ? '+' : '-';
+  let operator = (intercept<0) ? '-' : '+';
 
   let prefVal = 'calc(' + slopeAtWidth + 'vw ' + operator + ' ' + Math.abs(intercept) +'rem)';
   let minVal = document.getElementById('minfont-size').value;
