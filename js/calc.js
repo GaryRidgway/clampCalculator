@@ -59,6 +59,7 @@ function calcRule() {
   let clampRule =  'clamp(' + minVal + 'rem, ' + prefVal + ', ' + maxVal + 'rem);';
 
   document.getElementById('output').innerHTML = clampRule;
+  navigator.clipboard.writeText(clampRule);
 }
 
 function replace(key) {
