@@ -1,10 +1,11 @@
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clamp calculator</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="css/styles.css">
-
-    <script src="js/calc.js"></script>
   </head>
   <body>
     <div id='inputs' class='inputs'>
@@ -12,12 +13,15 @@
       <input type="number" id="minWidth" data-js-changeable="true" name="minimum width">px<br><br>
       <label for="maxWidth">Maximum width:</label>
       <input type="number" id="maxWidth" data-js-changeable="true" name="ending width">px<br><br>
-      <label for="minFont">Minimum font-size:</label>
-      <input type="number" id="minFont" data-js-changeable="true" name="minimum font-size">rem<br><br>
-      <label for="maxFont">Ending font-size:</label>
-      <input type="number" id="maxFont" data-js-changeable="true" name="ending font-size">rem<br><br>
+      <label for="minFontSize">Minimum font-size:</label>
+      <input type="number" id="minFontSize" data-js-changeable="true" name="minimum font-size">rem<br><br>
+      <label for="maxFontSize">Ending font-size:</label>
+      <input type="number" id="maxFontSize" data-js-changeable="true" name="ending font-size">rem<br><br>
       <button id='calc_rule' type="button" onclick="calcRule()">Calculate clamp rule</button>
     </div>
     <div id='output' class='preformatted'></div>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="js/calc.js"></script>
   </body>
 </html>
