@@ -115,7 +115,7 @@ function calcRule(auto=false, doAlert = true, userAuto = false) {
   const refKeys = Object.keys(refs);
 
   let queryString = 
-    '/?' + refKeys[0] + '=' + refs[refKeys[0]] + '&' +
+    '?' + refKeys[0] + '=' + refs[refKeys[0]] + '&' +
     refKeys[1] + '=' + refs[refKeys[1]] + '&' +
     refKeys[2] + '=' + refs[refKeys[2]] + '&' +
     refKeys[3] + '=' + refs[refKeys[3]]
@@ -125,7 +125,7 @@ function calcRule(auto=false, doAlert = true, userAuto = false) {
     queryString += '&auto';
   }
 
-  window.history.pushState('', '', queryString);
+  window.history.pushState('', '', window.location.pathname + queryString);
 }
 
 function calcSlope(minWidth, maxWidth, minFontSize, maxFontSize) {
