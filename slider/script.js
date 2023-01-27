@@ -1,3 +1,6 @@
+// https://codepen.io/chriscoyier/pen/XWbqpzP
+// https://codepen.io/MarioD/pen/WwXbgr
+
 $(function() {
   const sliderPatience = 500;
   let sliderTimer = 0;
@@ -74,17 +77,8 @@ $(function() {
     }
   };
   
-  const input0 = document.querySelector('.range-value.v0 input');
-  setSliderVariables(0, null, true);
-  input0.addEventListener('input', function() {
-    timedSetSliderVariables(0, this);
-  });
-
-  const input1 = document.querySelector('.range-value.v1 input');
-  setSliderVariables(1, null,true);
-  input1.addEventListener('input', function() {
-    timedSetSliderVariables(1, this);
-  });
+  setAndInitialize(0);
+  setAndInitialize(1);
 
   // Show the gears on press of the handles
   $('.ui-slider-handle, .ui-slider-range').on('mousedown', function() {
@@ -129,11 +123,11 @@ $(function() {
         if (previousVal > parseInt(ui.value)) {
           // value decreased
           gearOneAngle -= 7;
-          $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+          $('.gear-one').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
         } else {
           // value increased
           gearOneAngle += 7;
-          $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+          $('.gear-one').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
         }
 
       } else {
@@ -142,11 +136,11 @@ $(function() {
         if (previousVal > parseInt(ui.value)) {
           // value decreased
           gearOneAngle -= 7;
-          $('.gear-two').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+          $('.gear-two').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
         } else {
           // value increased
           gearOneAngle += 7;
-          $('.gear-two').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+          $('.gear-two').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
         }
 
       }
@@ -228,6 +222,7 @@ $(function() {
     const sliderValueAsInt = $("#slider-range").slider("values")[handleIndex];
     const handle = document.querySelector('.range-value.v' + handleIndex + ' input');
     handle.value = valAsDollars(sliderValueAsInt);
+    modWidthMachine();
   }
 
   function setInputWithFormatting(sliderInput, resetDataVal = -1) {
@@ -250,6 +245,31 @@ $(function() {
         valAsInt: null
       }
     ];
+  }
+
+  function modWidthMachine() {
+    const input0 = document.querySelector('.range-value.v0 input');
+    const widthMachine0 = document.querySelector('.v0 .input-wrap .width-machine');
+    const input1 = document.querySelector('.range-value.v1 input');
+    const widthMachine1 = document.querySelector('.v1 .input-wrap .width-machine');
+
+    const finalValue = valAsDollars(
+      valAsDollars(input0.value).length > valAsDollars(input1.value).length 
+      ? 
+      input0.value : input1.value
+    );
+
+    widthMachine0.innerHTML = finalValue;
+    widthMachine1.innerHTML = finalValue;
+  }
+
+  function setAndInitialize(handleIndex) {
+    const input = document.querySelector('.range-value.v' + handleIndex + ' input');
+    modWidthMachine();
+    setSliderVariables(handleIndex, null, true);
+    input.addEventListener('input', function() {
+      timedSetSliderVariables(handleIndex, this);
+    });
   }
 });
 

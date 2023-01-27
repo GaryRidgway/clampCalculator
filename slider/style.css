@@ -36,6 +36,45 @@ sup {
   text-align: center;
 }
 
+.input-wrap input {
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 1px 6px;
+  padding: 3px 6px 2px;
+  padding-right: 23px;
+}
+
+.input-wrap input:focus {
+  outline-style: solid;
+  outline-width: medium;
+  outline-color: #4379a5;
+}
+
+.input-wrap {
+  position: relative;
+  display: inline-block;
+}
+.input-wrap input {
+  text-align: right;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  color: #555;
+}
+
+.width-machine {
+  display: block;
+  padding: 1px 7px;
+  font-size: 0.9rem;
+  color: transparent;
+  height: calc(0.9rem + 9px);
+  padding-right: 23px;
+  /*   Sort of a magic number to add extra space for number spinner */
+  /* padding: 0 1rem; */
+}
+
 *[class*='ui-slider'].sliding {
   transition: all 0.3s ease-in-out;
   transition-property: width, left;
@@ -126,6 +165,7 @@ sup {
   width: fit-content;
   z-index: 10;
   position: relative;
+  display: flex;
 }
 .range:after {
   content: "";
@@ -139,11 +179,24 @@ sup {
 }
 
 .range-value {
-  width: 74px;
-  padding: 8px 6px;
   text-align: center;
   display: inline-block;
   transition: background 0.3s;
+  display: flex;
+  position: relative;
+  border: 3px solid transparent;
+}
+
+.range-value>span {
+  display: inline-block;
+  height: calc(1rem + 9px);
+  top: 4px;
+  right: 10px;
+  position: absolute;
+  padding: 1px 0px 2px;
+  border: 1px solid transparent;
+  border-left: 0;
+  color: #747474;
 }
 
 .range-divider {
@@ -153,7 +206,6 @@ sup {
 .range-divider:after {
   position: absolute;
   top: 0;
-  left: 50%;
   width: 1px;
   height: 100%;
   background: #d2d2d2;
@@ -171,7 +223,7 @@ sup {
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   border: 1px solid #d2d2d2;
-  color: #0E0E0E;
+  color: #959595;
   line-height: 15px;
   transition: right 0.3s;
 }
@@ -233,6 +285,7 @@ sup {
   width: 150px;
   height: 20px;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .gear-large {
