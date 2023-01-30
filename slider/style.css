@@ -1,3 +1,22 @@
+:root {
+  --text-color: #333333;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Dark theme styles go here */
+  :root {
+    --text-color: #fafafa;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  /* Light theme styles go here */
+  :root {
+    --text-color: #333333;
+  }
+}
+
+
 html {
   box-sizing: border-box;
 }
@@ -13,6 +32,7 @@ body {
 }
 
 body {
+  color: var(--text-color);
   background: #e8e8e8;
   -webkit-font-smoothing: antialiased;
 }
@@ -28,12 +48,6 @@ sup {
   display: table;
   width: 100%;
   height: 100%;
-}
-
-.container {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
 }
 
 .input-wrap input {
@@ -61,7 +75,7 @@ sup {
   width: 100%;
   left: 0;
   top: 0;
-  color: #555;
+  color: #707070;
 }
 
 .width-machine {
@@ -81,8 +95,10 @@ sup {
 }
 
 .slider-wrapper {
+  --slider-wrapper-padding-top: 100px;
+  --slider-wrapper-padding-side: 20px;
   width: 500px;
-  display: inline-block;
+  padding: var(--slider-wrapper-padding-top) var(--slider-wrapper-padding-side);
   position: relative;
   font-family: arial;
 }
@@ -190,13 +206,14 @@ sup {
 .range-value>span {
   display: inline-block;
   height: calc(1rem + 9px);
-  top: 4px;
-  right: 10px;
+  top: 1px;
+  left: calc(100% - 23px);
   position: absolute;
   padding: 1px 0px 2px;
   border: 1px solid transparent;
   border-left: 0;
   color: #747474;
+  pointer-events: none;
 }
 
 .range-divider {
@@ -233,7 +250,7 @@ sup {
 
 .marker {
   position: absolute;
-  top: 100%;
+  top: calc(100% - var(--slider-wrapper-padding-top));
   padding-top: 16px;
   font-size: 13px;
   color: #555;
@@ -268,7 +285,7 @@ sup {
 }
 
 .marker-100 {
-  right: 0;
+  right: var(--slider-wrapper-padding-side);
   transform: translateX(50%);
 }
 .marker-100:after {

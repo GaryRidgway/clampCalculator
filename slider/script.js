@@ -1,126 +1,62 @@
-// https://codepen.io/chriscoyier/pen/XWbqpzP
-// https://codepen.io/MarioD/pen/WwXbgr
-
 $(function() {
-  const sliderPatience = 500;
-  let sliderTimer = 0;
-  let removeIsTiming = false;
 
-  let sliderAdjustIsTiming = false;
-  let delayedSliderAdjustData; resetDelayedSliderAdjustData();
+  const sliders = $('[id^=slider-range]');
 
   // Initiate Slider
-  $('#slider-range').slider({
-    range: true,
-    min: 0,
-    max: 4000,
-    step: 5,
-    values: [600, 1310]
-  });
+  initSliders(sliders);
 
   // Move the range wrapper into the generated divs
-  $('.ui-slider-range').append($('.range-wrapper'));
+  sliders.find('.ui-slider-range').each(function() {
+    $(this).append($(this).parent().find('.range-wrapper'));
+  });
   
-  const delay = ms => new Promise(res => setTimeout(res, ms));
-
-  const waitRemove = async (JQSelector) => {
-    await delay(sliderPatience);
-    if (Date.now() > sliderTimer + sliderPatience) {
-      JQSelector.removeClass('sliding');
-      removeIsTiming = false;
-    }
-    else {
-      waitRemove(JQSelector);
-    }
-  };
-
-  const waitTriggerSliderAdjust = async () => {
-    await delay(sliderPatience/2);
-    if (Date.now() > sliderTimer + sliderPatience/2) {
-      delayedSliderAdjustData.forEach((element, index) => {
-        let sliderValAsInt = delayedSliderAdjustData[index].valAsInt;
-        if (sliderValAsInt === null) {
-          return;
-        }
-
-        sliderValAsInt = sliderValAsInt ? sliderValAsInt : 0;
-        let otherHandleVal = parseInt(document.querySelector('.range-value.v' + (index + 1)%2 + ' input').value.replace(/,/g, ''), 10);
-        otherHandleVal = otherHandleVal ? otherHandleVal : 0;
-        
-        // VALIDATION
-        if (index < 1) {
-          if (sliderValAsInt > otherHandleVal) {
-            sliderValAsInt = otherHandleVal - 1;
-          }
-        }
-        else {
-          if (sliderValAsInt < otherHandleVal) {
-            sliderValAsInt = otherHandleVal + 1;
-          }
-        }
-
-        const handleRef = document.querySelector('.range-value.v' + index + ' input');
-        setInputWithFormatting(handleRef, sliderValAsInt);
-        $("#slider-range").slider(
-          "values",
-          index,
-          sliderValAsInt
-        );
-      });
-
-      resetDelayedSliderAdjustData();
-      
-      sliderAdjustIsTiming = false;
-    }
-    else {
-      waitTriggerSliderAdjust() ;
-    }
-  };
   
-  setAndInitialize(0);
-  setAndInitialize(1);
-
+  sliders.each(function() {
+    setAndInitialize($(this), 0);
+    setAndInitialize($(this), 1);
+  });
+  
   // Show the gears on press of the handles
   $('.ui-slider-handle, .ui-slider-range').on('mousedown', function() {
-    $('.gear-large').addClass('active');
+    $(this).parent().find('.gear-large').addClass('active');
   });
 
   // Hide the gears when the mouse is released
   // Done on document just incase the user hovers off of the handle
-  $(document).on('mouseup', function() {
-    if ($('.gear-large').hasClass('active')) {
-      $('.gear-large').removeClass('active');
+  $('.ui-slider-handle, .ui-slider-range').on('mouseup', function() {
+    if ($(this).parent().find('.gear-large').hasClass('active')) {
+      $(this).parent().find('.gear-large').removeClass('active');
     }
   });
 
   // Rotate the gears
   var gearOneAngle = 0,
-    gearTwoAngle = 0,
-    rangeWidth = $('.ui-slider-range').css('width');
+    gearTwoAngle = 0;
 
-  $('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
-  $('.gear-two').css('transform', 'rotate(' + gearTwoAngle + 'deg)');
+  sliders.find('.gear-one').css('transform', 'rotate(' + gearOneAngle + 'deg)');
+  sliders.find('.gear-two').css('transform', 'rotate(' + gearTwoAngle + 'deg)');
 
-  $('#slider-range').slider({
+  sliders.slider({
     slide: function(event, ui) {
 
       // Update the range container values upon sliding
-      setSliderInputValue(0);
-      setSliderInputValue(1);
+      setSliderInputValue($(this), 0);
+      setSliderInputValue($(this), 1);
 
       // Get old value
-      var previousVal = parseInt($(this).data('value'));
+      var previousVal = parseFloat($(this).data('value'));
+
 
       // Save new value
       $(this).data({
-        'value': parseInt(ui.value)
+        'value': parseFloat(ui.value)
       });
 
       // Figure out which handle is being used
       if (ui.values[0] == ui.value) {
 
         // Left handle
-        if (previousVal > parseInt(ui.value)) {
+        if (previousVal > parseFloat(ui.value)) {
           // value decreased
           gearOneAngle -= 7;
           $('.gear-one').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
@@ -133,25 +69,25 @@ $(function() {
       } else {
 
         // Right handle
-        if (previousVal > parseInt(ui.value)) {
+        if (previousVal > parseFloat(ui.value)) {
           // value decreased
           gearOneAngle -= 7;
-          $('.gear-two').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
+          $(this).find('.gear-two').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
         } else {
           // value increased
           gearOneAngle += 7;
-          $('.gear-two').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
+          $(this).find('.gear-two').css('transform', 'rotate(' + gearOneAngle/6 + 'deg)');
         }
 
       }
 
       if (ui.values[1] === 4000) {
-        if (!$('.range-alert').hasClass('active')) {
-          $('.range-alert').addClass('active');
+        if (!$(this).find('.range-alert').hasClass('active')) {
+          $(this).find('.range-alert').addClass('active');
         }
       } else {
-        if ($('.range-alert').hasClass('active')) {
-          $('.range-alert').removeClass('active');
+        if ($(this).find('.range-alert').hasClass('active')) {
+          $(this).find('.range-alert').removeClass('active');
         }
       }
     }
@@ -161,116 +97,95 @@ $(function() {
   $('.range, .range-alert').on('mousedown', function(event) {
     event.stopPropagation();
   });
-
-  function valAsDollars(val) {
-    if (typeof(val) === 'number') {
-      return val.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-    }
   
-    return val.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-  }
-  
-  function setSliderVariables(handleIndex, sliderRef = null, instantReplace = false) {
-    let sliderInput = sliderRef;
-    if (sliderRef === null) {
-      sliderInput = document.querySelector('.range-value.v' + handleIndex + ' input');
+  function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
+    let sliderInput = JQSelector.find('.range-value.v' + handleIndex + ' input');
+    let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
+    let newSliderInputVal = '';
+    if (sliderData.type === 'px') {
+      
+      newSliderInputVal = valAsDollars(JQSelector, sliderInput.val());
+      // sliderInput.val().replace(/[^0-9 \,\.]/, '');
+    }
+    else if(sliderData.type === 'rem') {
+      console.log('asdf')
+      let valAsRaw = parseFloat(sliderInput.val().replace(/,/g, ''), 10)
+      let places = 3;
+      valAsRaw = Math.round(valAsRaw * 10 * places) / 10 * places;
+      newSliderInputVal = valAsRaw.toString().replace(/[^0-9 \,\.]/, '');
     }
 
-    sliderInput.value = sliderInput.value.replace(/[^0-9 \,]/, '');
-    let valAsInt = parseInt(sliderInput.value.replace(/,/g, ''), 10);
+    sliderInput.val(newSliderInputVal.replace(/[^0-9 \,\.]/, ''));
+    let valAsRaw = parseFloat(newSliderInputVal.replace(/,/g, ''), 10);
 
-    sliderInput.setAttribute(
-      'data-val-int',
-      valAsInt ? valAsInt : 0
-    );
-    setInputWithFormatting(sliderInput);
+    valAsRaw = valAsRaw ? valAsRaw : 0;
+    setInputWithFormatting(sliderInput, valAsRaw);
 
-    delayedSliderAdjustData[handleIndex].valAsInt = valAsInt;
+    sliderTimers.sliderData[JQSelector.attr('id')].delayedSliderAdjustData[handleIndex].valAsRaw = valAsRaw;
 
     if (instantReplace) {
-      $("#slider-range").slider(
+      JQSelector.slider(
         "values",
         handleIndex,
-        delayedSliderAdjustData[handleIndex].valAsInt
+        sliderData.delayedSliderAdjustData[handleIndex].valAsRaw
       );
-      resetDelayedSliderAdjustData();
+      resetDelayedSliderAdjustData(JQSelector);
     }
   }
   
-  function timedSetSliderVariables(handleIndex, sliderRef = null) {
-    const sliderRange = $("#slider-range").find('.ui-slider-range');
-    const sliderHandles = $("#slider-range").find('.ui-slider-handle');
+  function timedSetSliderVariables(JQSelector, handleIndex) {
+    const sliderRange = JQSelector.find('.ui-slider-range');
+    const sliderHandles = JQSelector.find('.ui-slider-handle');
     sliderRange.addClass('sliding');
     sliderHandles.addClass('sliding');
-    sliderTimer = Date.now();
-  
-    setSliderVariables(handleIndex, sliderRef);
+    sliderTimer(JQSelector, true);
 
-    if (!sliderAdjustIsTiming) {
-      sliderAdjustIsTiming = true;
-      waitTriggerSliderAdjust();
+    let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
+  
+    setSliderVariables(JQSelector, handleIndex);
+
+    if (!sliderData.sliderAdjustIsTiming) {
+      sliderTimers.sliderData[JQSelector.attr('id')].sliderAdjustIsTiming = true;
+      waitTriggerSliderAdjust(JQSelector, handleIndex);
     }
   
-    if (!removeIsTiming) {
-      removeIsTiming = true;
-      waitRemove(sliderRange);
-      waitRemove(sliderHandles);
+    if (!sliderData.removeIsTiming) {
+      sliderTimers.sliderData[JQSelector.attr('id')].removeIsTiming = true;
+      waitRemove(sliderRange.parent());
+      waitRemove(sliderHandles.parent());
     }
   }
   
-  function setSliderInputValue(handleIndex) {
-    const sliderValueAsInt = $("#slider-range").slider("values")[handleIndex];
-    const handle = document.querySelector('.range-value.v' + handleIndex + ' input');
-    handle.value = valAsDollars(sliderValueAsInt);
-    modWidthMachine();
+  function setSliderInputValue(JQSelector, handleIndex) {
+    const sliderValueAsInt = JQSelector.slider("values")[handleIndex];
+    const handle = JQSelector.find('.range-value.v' + handleIndex + ' input');
+    handle.val(valAsDollars(JQSelector, sliderValueAsInt));
+    modWidthMachine(JQSelector);
   }
 
-  function setInputWithFormatting(sliderInput, resetDataVal = -1) {
-    if (resetDataVal > -1) {
-      sliderInput.setAttribute(
-        'data-val-int',
-        resetDataVal ? resetDataVal : 0
-      );
-    }
+  function modWidthMachine(JQSelector) {
+    const input0 = JQSelector.find('.range-value.v0 input');
+    const widthMachine0 = JQSelector.find('.range-value.v0 .input-wrap .width-machine');
+    const input1 = JQSelector.find('.range-value.v1 input');
+    const widthMachine1 = JQSelector.find('.range-value.v1 .input-wrap .width-machine');
 
-    sliderInput.value = valAsDollars(sliderInput.getAttribute('data-val-int'));
-  }
-
-  function resetDelayedSliderAdjustData() {
-    delayedSliderAdjustData = [
-      {
-        valAsInt: null
-      },
-      {
-        valAsInt: null
-      }
-    ];
-  }
-
-  function modWidthMachine() {
-    const input0 = document.querySelector('.range-value.v0 input');
-    const widthMachine0 = document.querySelector('.v0 .input-wrap .width-machine');
-    const input1 = document.querySelector('.range-value.v1 input');
-    const widthMachine1 = document.querySelector('.v1 .input-wrap .width-machine');
-
-    const finalValue = valAsDollars(
-      valAsDollars(input0.value).length > valAsDollars(input1.value).length 
+    const finalValue = valAsDollars(JQSelector, 
+      valAsDollars(JQSelector, input0.val()).length > valAsDollars(JQSelector, input1.val()).length 
       ? 
-      input0.value : input1.value
+      input0.val() : input1.val()
     );
 
-    widthMachine0.innerHTML = finalValue;
-    widthMachine1.innerHTML = finalValue;
+    widthMachine0.html(finalValue);
+    widthMachine1.html(finalValue);
   }
 
-  function setAndInitialize(handleIndex) {
-    const input = document.querySelector('.range-value.v' + handleIndex + ' input');
-    modWidthMachine();
-    setSliderVariables(handleIndex, null, true);
-    input.addEventListener('input', function() {
-      timedSetSliderVariables(handleIndex, this);
+  function setAndInitialize(JQSelector, handleIndex) {
+    initSliderData(JQSelector);
+    const input = JQSelector.find('.range-value.v' + handleIndex + ' input');
+    modWidthMachine(JQSelector);
+    setSliderVariables(JQSelector, handleIndex, null, true);
+    input[0].addEventListener('input', function() {
+      timedSetSliderVariables(JQSelector, handleIndex);
     });
   }
 });
-
-

@@ -12,7 +12,7 @@
 <div class="wrapper">
   <div class="container">
     <div class="slider-wrapper">
-      <div id="slider-range">
+      <div id="slider-range0" data-slider-type="px">
         <div class="range-wrapper">
           <div class="range">
             <span class="range-value v0">
@@ -54,11 +54,56 @@
       <div class="marker marker-100">4,000px</div>
     </div>
 
+
+    <div class="slider-wrapper">
+      <div id="slider-range1" data-slider-type="rem">
+        <div class="range-wrapper">
+          <div class="range">
+            <span class="range-value v0">
+              <div class="input-wrap">
+                <span class="width-machine" aria-hidden="true"></span>
+                <input type="text" value="1.75">
+              </div>
+              <span>rem</span>
+            </span>
+            <span class="range-divider"></span>
+            <span class="range-value v1">
+              <div class="input-wrap">
+                <span class="width-machine" aria-hidden="true"></span>
+                <input type="text" value="2.525">
+              </div>
+              <span>rem</span>
+            </span>
+          </div>
+          <div class="range-alert">+</div>
+
+          <div class="gear-wrapper">
+            <div class="gear-large gear-one">
+              <div class="gear-tooth"></div>
+              <div class="gear-tooth"></div>
+              <div class="gear-tooth"></div>
+              <div class="gear-tooth"></div>
+            </div>
+            <div class="gear-large gear-two">
+              <div class="gear-tooth"></div>
+              <div class="gear-tooth"></div>
+              <div class="gear-tooth"></div>
+              <div class="gear-tooth"></div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div class="marker marker-0">0rem</div>
+      <div class="marker marker-100">4rem</div>
+    </div>
+
   </div>
 </div>
 <!-- partial -->
   <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
-<script src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script><script  src="./script.js"></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+<script  src="../js/sliderHelpers.js"></script>
+<script  src="./script.js"></script>
 
 </body>
 </html>
