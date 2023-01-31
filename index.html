@@ -9,22 +9,22 @@
   </head>
   <body>
 
-      <label for="minWidth">Minimum width:</label>
-      <input type="number" id="minWidth" data-js-changeable="true" name="minimum width">px<br><br>
-      <label for="maxWidth">Maximum width:</label>
-      <input type="number" id="maxWidth" data-js-changeable="true" name="ending width">px<br><br>
-      <label for="minFontSize">Minimum font-size:</label>
-      <input type="number" id="minFontSize" data-js-changeable="true" name="minimum font-size">rem<br><br>
-      <label for="maxFontSize">Ending font-size:</label>
-      <input type="number" id="maxFontSize" data-js-changeable="true" name="ending font-size">rem<br><br>
-      <button id='calc_rule' type="button" onclick="calcRule()">Calculate clamp rule</button>
-    </div>
+    <label for="minWidth">Minimum width:</label>
+    <input type="number" id="minWidth" data-js-changeable="true" name="minimum width">px<br><br>
+    <label for="maxWidth">Maximum width:</label>
+    <input type="number" id="maxWidth" data-js-changeable="true" name="ending width">px<br><br>
+    <label for="minFontSize">Minimum font-size:</label>
+    <input type="number" id="minFontSize" data-js-changeable="true" name="minimum font-size">rem<br><br>
+    <label for="maxFontSize">Ending font-size:</label>
+    <input type="number" id="maxFontSize" data-js-changeable="true" name="ending font-size">rem<br><br>
+    <button id='calc_rule' type="button" onclick="calcRule()">Calculate clamp rule</button>
     <div id='output' class='preformatted'></div>
     
     <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
     <script src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="js/sliderHelpers.js"></script>
+    <script src="js/ruleHelpers.js"></script>
     <script src="js/calc.js"></script>
   </body>
 </html>

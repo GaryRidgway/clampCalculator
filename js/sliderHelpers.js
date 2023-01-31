@@ -33,6 +33,8 @@ function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
     );
     resetDelayedSliderAdjustData(JQSelector);
   }
+
+  console.log('setVal!!');
 }
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -136,6 +138,8 @@ function blankSliderData(JQSelector) {
         type: JQSelector.attr('data-slider-type'),
         min: null,
         max: null,
+        gearOneAngle: 0,
+        gearTwoAngle: 0,
         timer: Date.now(),
         removeIsTiming: false,
         sliderAdjustIsTiming: false,
@@ -228,4 +232,111 @@ function floatStringWithExplicitPlaces(float, places) {
     const valToPlaces = roundValToPlaces + placesModifier;
     const stringAtPlaces = valToPlaces.toString().slice(0,places+2);
     return stringAtPlaces;
+}
+  
+function timedSetSliderVariables(JQSelector, handleIndex) {
+  const sliderRange = JQSelector.find('.ui-slider-range');
+  const sliderHandles = JQSelector.find('.ui-slider-handle');
+  sliderRange.addClass('sliding');
+  sliderHandles.addClass('sliding');
+  sliderTimer(JQSelector, true);
+
+  let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
+
+  if (!sliderData.sliderAdjustIsTiming) {
+    sliderTimers.sliderData[JQSelector.attr('id')].sliderAdjustIsTiming = true;
+    waitTriggerSliderAdjust(JQSelector, handleIndex);
+  }
+
+  if (!sliderData.removeIsTiming) {
+    sliderTimers.sliderData[JQSelector.attr('id')].removeIsTiming = true;
+    waitRemove(sliderRange.parent());
+    waitRemove(sliderHandles.parent());
+  }
+}
+
+function setSliderInputValue(JQSelector, handleIndex) {
+  const sliderValueAsInt = JQSelector.slider("values")[handleIndex];
+  const handle = JQSelector.find('.range-value.v' + handleIndex + ' input');
+  handle.val(valAsDollars(JQSelector, sliderValueAsInt));
+  modWidthMachine(JQSelector);
+}
+
+function modWidthMachine(JQSelector) {
+  const input0 = JQSelector.find('.range-value.v0 input');
+  const widthMachine0 = JQSelector.find('.range-value.v0 .input-wrap .width-machine');
+  const input1 = JQSelector.find('.range-value.v1 input');
+  const widthMachine1 = JQSelector.find('.range-value.v1 .input-wrap .width-machine');
+
+  const finalValue = valAsDollars(JQSelector, 
+    valAsDollars(JQSelector, input0.val()).length > valAsDollars(JQSelector, input1.val()).length 
+    ? 
+    input0.val() : input1.val()
+  );
+
+  widthMachine0.html(finalValue);
+  widthMachine1.html(finalValue);
+}
+
+function setAndInitialize(JQSelector, handleIndex) {
+  initSliderData(JQSelector);
+  const input = JQSelector.find('.range-value.v' + handleIndex + ' input');
+  modWidthMachine(JQSelector);
+  setSliderVariables(JQSelector, handleIndex, null, true);
+  input[0].addEventListener('input', function() {
+    timedSetSliderVariables(JQSelector, handleIndex);
+  });
+}
+
+function doSlide(JQSelector, ui) {
+// Update the range container values upon sliding
+setSliderInputValue(JQSelector, 0);
+setSliderInputValue(JQSelector, 1);
+
+// Get old value
+var previousVal = parseFloat(JQSelector.data('value'));
+sliderTimers.sliderData[JQSelector.attr('id')]
+
+// Save new value
+JQSelector.data({
+  'value': parseFloat(ui.value)
+});
+
+// Figure out which handle is being used
+if (ui.values[0] == ui.value) {
+
+  // Left handle
+  if (previousVal > parseFloat(ui.value)) {
+    // value decreased
+    sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle -= 7;
+    $('.gear-one').css('transform', 'rotate('
+    + sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle/6 +
+    'deg)');
+  } else {
+    // value increased
+    sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle += 7;
+    $('.gear-one').css('transform', 'rotate('
+    + sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle/6 +
+    'deg)');
+  }
+
+} else {
+
+  // Right handle
+  if (previousVal > parseFloat(ui.value)) {
+    // value decreased
+    sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle -= 7;
+    JQSelector.find('.gear-two').css('transform', 'rotate('
+    + sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle/6 +
+    'deg)');
+  } else {
+    // value increased
+    sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle += 7;
+    JQSelector.find('.gear-two').css('transform', 'rotate('
+    + sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle/6 +
+    'deg)');
+  }
+}
+
+console.log('setVal!!');
 }
