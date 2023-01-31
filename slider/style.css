@@ -242,7 +242,7 @@ div[data-slider-type="rem"] .range-value {
   top: calc(100% - var(--slider-wrapper-padding-top));
   padding-top: 16px;
   font-size: 13px;
-  color: #555;
+  color: var(--text-color);
   letter-spacing: 0.05em;
   transform: translateX(-50%);
 }
@@ -347,4 +347,60 @@ div[data-slider-type="rem"] .range-value {
 }
 .gear-tooth:nth-child(4) {
   transform: rotate(-45deg) translate(-50%, -50%);
+}
+
+
+/* Canvas styles */
+#graphWrapper {
+  padding: 30px 75px;
+  flex: 1 1;
+}
+
+#graphParent {
+  position: relative;
+  aspect-ratio: var(--aspect-ratio);
+  width: 100%;
+}
+
+#graphParent canvas {
+  border: 1px solid #5e5e5e;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: var(--aspect-ratio);
+}
+
+#graphParent .positioner {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+}
+
+#graphParent .data-display {
+  position: absolute;
+  padding: 4px;
+  font-size: 0.9rem;
+}
+
+.left .data-display {
+  transform: translate(-100%, calc(-50% + 1px));
+}
+
+.right {
+  left: 100%;
+}
+
+.right .data-display {
+  transform: translate(0, calc(-50% + 1px));
+}
+
+.bLeft {
+  top: 100%;
+}
+
+.bLeft .data-display {
+  transform: translate(-100%, 0);
+}
+
+.bRight {
+  top: 100%;
 }

@@ -117,16 +117,18 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
     }
 };
 
-function setInputWithFormatting(sliderInput, resetDataVal = null) {
-    if (resetDataVal != null) {
-      sliderInput.attr(
-        'data-val-raw',
-        resetDataVal ? resetDataVal : 0
-      );
-    }
+function setInputWithFormatting(sliderInput, resetDataVal = null, rawOnly = false) {
+  if (resetDataVal != null) {
+    sliderInput.attr(
+      'data-val-raw',
+      resetDataVal ? resetDataVal : 0
+    );
+  }
 
+  if (!rawOnly) {
     sliderInput.val(valAsDollars(sliderInput.closest('[id^=slider-range]'), sliderInput.attr('data-val-raw')));
   }
+}
 
 function blankSliderData(JQSelector) {
     return {
@@ -178,7 +180,11 @@ function sliderTimer(JQSelector, set = false) {
 }
 
 function valAsDollars(JQSelector, val) {
-    if(sliderTimers.sliderData[JQSelector.attr('id')].type === 'rem') {
+    if(
+      JQSelector &&
+      sliderTimers.sliderData[JQSelector.attr('id')] &&
+      sliderTimers.sliderData[JQSelector.attr('id')].type === 'rem'
+    ) {
         return floatStringWithExplicitPlaces(val, 3);
     }
 
@@ -201,7 +207,7 @@ function initSliders(sliders) {
             $(this).slider({
                 range: true,
                 min: 0,
-                max: 4000,
+                max: 2200,
                 step: 5,
                 values: [600, 1310]
             });

@@ -1,8 +1,9 @@
 function getReferences() {
-  let minWidth = document.getElementById('minWidth').value;
-  let maxWidth = document.getElementById('maxWidth').value;
-  let minFontSize = document.getElementById('minFontSize').value;
-  let maxFontSize = document.getElementById('maxFontSize').value;
+  let minWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v0 input').value.replace(/,/g, ''), 10);
+  let maxWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v1 input').value.replace(/,/g, ''), 10);
+  let minFontSize = parseFloat(document.querySelector('#slider-range1 .range-value.v0 input').value.replace(/,/g, ''), 10);
+  let maxFontSize = parseFloat(document.querySelector('#slider-range1 .range-value.v1 input').value.replace(/,/g, ''), 10);
+
   let minFontSizePix = minFontSize * remFactor;
   let maxFontSizePix = maxFontSize * remFactor;
 

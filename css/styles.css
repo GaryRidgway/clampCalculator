@@ -3,6 +3,7 @@
   --bacg-color: #fafafa;
   --prbg-color: #dddddd;
   --prbg-border-color: #c9c9c9;
+  --aspect-ratio : 16 / 9;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -52,4 +53,8 @@ body {
 
 .sliders-and-graph {
   display: flex;
+}
+
+.sliders-and-graph .container {
+  flex: 1 1;
 }
