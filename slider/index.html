@@ -9,8 +9,8 @@
 
 </head>
 <body>
-  <!-- partial:index.partial.html -->
-  <div class="wrapper">
+  <div class="sliders-and-graph">
+
     <div class="container">
       <div class="slider-wrapper">
         <div id="slider-range0" data-slider-type="px">
@@ -49,12 +49,12 @@
             </div>
           </div>
         </div>
-
+  
         <div class="marker marker-0">0px</div>
         <div class="marker marker-100">4,000px</div>
       </div>
-
-
+  
+  
       <div class="slider-wrapper">
         <div id="slider-range1" data-slider-type="rem">
           <div class="range-wrapper">
@@ -75,7 +75,7 @@
                 <span>rem</span>
               </span>
             </div>
-
+  
             <div class="gear-wrapper">
               <div class="gear-large gear-one">
                 <div class="gear-tooth"></div>
@@ -95,10 +95,12 @@
         <div class="marker marker-0">0rem</div>
         <div class="marker marker-100">4rem</div>
       </div>
-
+  
     </div>
+  
+    <div id="graphParent"></div>
   </div>
-  <!-- partial -->
+
   <label for="minWidth">Minimum width:</label>
   <input type="number" id="minWidth" data-js-changeable="true" name="minimum width">px<br><br>
   <label for="maxWidth">Maximum width:</label>
@@ -113,6 +115,10 @@
   <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
   <script src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.js"></script>
+  <script  src="../js/variables.js"></script>
+  <script  src="../js/controller.js"></script>
+  <script  src="../js/graph.js"></script>
   <script  src="../js/sliderHelpers.js"></script>
   <script  src="../js/ruleHelpers.js"></script>
   <script  src="./script.js"></script>

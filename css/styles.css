@@ -49,3 +49,7 @@ body {
 .swal-overlay {
   color: #333333;
 }
+
+.sliders-and-graph {
+  display: flex;
+}

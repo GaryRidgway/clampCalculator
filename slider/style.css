@@ -44,12 +44,6 @@ sup {
   top: 1px;
 }
 
-.wrapper {
-  display: table;
-  width: 100%;
-  height: 100%;
-}
-
 .input-wrap input {
   border: 1px solid transparent;
   font-family: inherit;

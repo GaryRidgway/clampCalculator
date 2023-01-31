@@ -1,9 +1,3 @@
-
-let sliderTimers = {
-    sliderPatience: 500,
-    sliderData: {}
-};
-  
 function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
   let sliderInput = JQSelector.find('.range-value.v' + handleIndex + ' input');
   let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
@@ -34,13 +28,13 @@ function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
     resetDelayedSliderAdjustData(JQSelector);
   }
 
-  console.log('setVal!!');
+  triggerDataRebuild();
 }
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+const delayInstance = ms => new Promise(res => setTimeout(res, ms));
 
 const waitRemove = async (JQSelector) => {
-    await delay(sliderTimers.sliderPatience);
+    await delayInstance(sliderTimers.sliderPatience);
     const slideSelector = JQSelector.find('.ui-slider-handle, .ui-slider-range')
     if (Date.now() > sliderTimer(JQSelector) + sliderTimers.sliderPatience) {
         slideSelector.removeClass('sliding');
@@ -52,7 +46,7 @@ const waitRemove = async (JQSelector) => {
 };
 
 const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
-    await delay(sliderTimers.sliderPatience/2);
+    await delayInstance(sliderTimers.sliderPatience/2);
     
     if (Date.now() > sliderTimer(JQSelector) + sliderTimers.sliderPatience/2) {
         setSliderVariables(JQSelector, handleIndex);
@@ -116,7 +110,8 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
         resetDelayedSliderAdjustData(JQSelector);
         
         sliderTimers.sliderData[JQSelector.attr('id')].sliderAdjustIsTiming = false;
-    }
+        triggerDataRebuild();
+      }
     else {
         waitTriggerSliderAdjust(JQSelector,handleIndex) ;
     }
@@ -286,57 +281,82 @@ function setAndInitialize(JQSelector, handleIndex) {
   input[0].addEventListener('input', function() {
     timedSetSliderVariables(JQSelector, handleIndex);
   });
+
+  // Remove the ability to tab to a handle for accessibility.
+  JQSelector.find('.ui-slider-handle').removeAttr('tabindex');
 }
 
 function doSlide(JQSelector, ui) {
-// Update the range container values upon sliding
-setSliderInputValue(JQSelector, 0);
-setSliderInputValue(JQSelector, 1);
+  // Update the range container values upon sliding
+  setSliderInputValue(JQSelector, 0);
+  setSliderInputValue(JQSelector, 1);
 
-// Get old value
-var previousVal = parseFloat(JQSelector.data('value'));
-sliderTimers.sliderData[JQSelector.attr('id')]
+  // Get old value
+  var previousVal = parseFloat(JQSelector.data('value'));
+  sliderTimers.sliderData[JQSelector.attr('id')]
 
-// Save new value
-JQSelector.data({
-  'value': parseFloat(ui.value)
-});
+  // Save new value
+  JQSelector.data({
+    'value': parseFloat(ui.value)
+  });
 
-// Figure out which handle is being used
-if (ui.values[0] == ui.value) {
+  // Figure out which handle is being used
+  if (ui.values[0] == ui.value) {
 
-  // Left handle
-  if (previousVal > parseFloat(ui.value)) {
-    // value decreased
-    sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle -= 7;
-    $('.gear-one').css('transform', 'rotate('
-    + sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle/6 +
-    'deg)');
+    // Left handle
+    if (previousVal > parseFloat(ui.value)) {
+      // value decreased
+      sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle -= 7;
+      $('.gear-one').css('transform', 'rotate('
+      + sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle/6 +
+      'deg)');
+    } else {
+      // value increased
+      sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle += 7;
+      $('.gear-one').css('transform', 'rotate('
+      + sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle/6 +
+      'deg)');
+    }
+
   } else {
-    // value increased
-    sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle += 7;
-    $('.gear-one').css('transform', 'rotate('
-    + sliderTimers.sliderData[JQSelector.attr('id')].gearOneAngle/6 +
-    'deg)');
+
+    // Right handle
+    if (previousVal > parseFloat(ui.value)) {
+      // value decreased
+      sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle -= 7;
+      JQSelector.find('.gear-two').css('transform', 'rotate('
+      + sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle/6 +
+      'deg)');
+    } else {
+      // value increased
+      sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle += 7;
+      JQSelector.find('.gear-two').css('transform', 'rotate('
+      + sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle/6 +
+      'deg)');
+    }
   }
 
-} else {
-
-  // Right handle
-  if (previousVal > parseFloat(ui.value)) {
-    // value decreased
-    sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle -= 7;
-    JQSelector.find('.gear-two').css('transform', 'rotate('
-    + sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle/6 +
-    'deg)');
-  } else {
-    // value increased
-    sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle += 7;
-    JQSelector.find('.gear-two').css('transform', 'rotate('
-    + sliderTimers.sliderData[JQSelector.attr('id')].gearTwoAngle/6 +
-    'deg)');
-  }
+  triggerDataRebuild();
 }
 
-console.log('setVal!!');
+
+// This gets the necessary data from sliders.
+// This is not a flexible function.
+function getSliderValues() {
+  let size = $('#slider-range1').slider("option", "values");
+  let width = $('#slider-range0').slider("option", "values");
+
+  let fontSize = {
+    min: size[0],
+    max: size[1],
+  };
+  let windowSize = {
+    min: width[0],
+    max: width[1],
+  };
+
+  return {
+    fontSize: fontSize,
+    windowSize: windowSize
+  };
 }
