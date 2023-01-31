@@ -3,6 +3,37 @@ let sliderTimers = {
     sliderPatience: 500,
     sliderData: {}
 };
+  
+function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
+  let sliderInput = JQSelector.find('.range-value.v' + handleIndex + ' input');
+  let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
+  let newSliderInputVal = valAsDollars(JQSelector, sliderInput.val());
+  if (sliderData.type === 'px') {
+    
+    newSliderInputVal = valAsDollars(JQSelector, sliderInput.val());
+  }
+  else if(sliderData.type === 'rem') {
+    const valAsRaw = parseFloat(sliderInput.val().replace(/,/g, ''), 10);
+    newSliderInputVal = floatStringWithExplicitPlaces(valAsRaw, 3);
+  }
+
+  JQSelector.find('.range-value.v' + handleIndex + ' input').val(newSliderInputVal.replace(/[^0-9 \,\.]/, ''));
+  let valAsRaw = parseFloat(newSliderInputVal.replace(/,/g, ''), 10);
+
+  valAsRaw = valAsRaw ? valAsRaw : 0;
+  setInputWithFormatting(sliderInput, valAsRaw);
+
+  sliderTimers.sliderData[JQSelector.attr('id')].delayedSliderAdjustData[handleIndex].valAsRaw = valAsRaw;
+
+  if (instantReplace) {
+    JQSelector.slider(
+      "values",
+      handleIndex,
+      sliderData.delayedSliderAdjustData[handleIndex].valAsRaw
+    );
+    resetDelayedSliderAdjustData(JQSelector);
+  }
+}
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -22,7 +53,9 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
     await delay(sliderTimers.sliderPatience/2);
     
     if (Date.now() > sliderTimer(JQSelector) + sliderTimers.sliderPatience/2) {
+        setSliderVariables(JQSelector, handleIndex);
         const handleRef = JQSelector.find('.range-value.v' + handleIndex + ' input');
+        const sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
         let slidervalAsRaw = handleRef.attr('data-val-raw');
         if (slidervalAsRaw === null) {
             return;
@@ -34,14 +67,39 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
         otherHandleVal = otherHandleVal ? otherHandleVal : 0;
         
         // VALIDATION
+        // On the low.
+        const min = JQSelector.slider("option", "min");
+        // console.log(min, slidervalAsRaw);
+        if (slidervalAsRaw < min) {
+            slidervalAsRaw = min;
+        }
+        
+        // On the high.
+        const max = JQSelector.slider("option", "max");
+        // console.log(max);
+        if (slidervalAsRaw > max) {
+            slidervalAsRaw = max;
+        }
+
+        // On the collision.
         if (handleIndex < 1) {
             if (slidervalAsRaw > otherHandleVal) {
-            slidervalAsRaw = otherHandleVal - 1;
+                if (sliderData.type === 'rem') {
+                    slidervalAsRaw = otherHandleVal - 0.001;
+                }
+                else if (sliderData.type === 'px') {
+                    slidervalAsRaw = otherHandleVal - 1;
+                }
             }
         }
         else {
             if (slidervalAsRaw < otherHandleVal) {
-            slidervalAsRaw = otherHandleVal + 1;
+                if (sliderData.type === 'rem') {
+                    slidervalAsRaw = otherHandleVal + 0.001;
+                }
+                else if (sliderData.type === 'px') {
+                    slidervalAsRaw = otherHandleVal + 1;
+                }
             }
         }
 
@@ -62,8 +120,8 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
     }
 };
 
-function setInputWithFormatting(sliderInput, resetDataVal = -1) {
-    if (resetDataVal > -1) {
+function setInputWithFormatting(sliderInput, resetDataVal = null) {
+    if (resetDataVal != null) {
       sliderInput.attr(
         'data-val-raw',
         resetDataVal ? resetDataVal : 0
@@ -76,6 +134,8 @@ function setInputWithFormatting(sliderInput, resetDataVal = -1) {
 function blankSliderData(JQSelector) {
     return {
         type: JQSelector.attr('data-slider-type'),
+        min: null,
+        max: null,
         timer: Date.now(),
         removeIsTiming: false,
         sliderAdjustIsTiming: false,
@@ -119,8 +179,8 @@ function sliderTimer(JQSelector, set = false) {
 }
 
 function valAsDollars(JQSelector, val) {
-    if(sliderTimers.sliderData[JQSelector.attr('id')].type !== 'px') {
-        return val.toString();
+    if(sliderTimers.sliderData[JQSelector.attr('id')].type === 'rem') {
+        return floatStringWithExplicitPlaces(val, 3);
     }
 
     if (typeof(val) === 'number') {
@@ -135,7 +195,6 @@ function initSliderData(JQSelector) {
         sliderTimers.sliderData[JQSelector.attr('id')] = blankSliderData(JQSelector);
     }
 }
-
 
 function initSliders(sliders) {
     sliders.each(function() {
@@ -160,4 +219,13 @@ function initSliders(sliders) {
             });
         }
     });
+}
+
+function floatStringWithExplicitPlaces(float, places) {
+    const multiplier = Math.pow(10, places);
+    const roundValToPlaces = Math.round(float * multiplier) / multiplier;
+    const placesModifier = parseFloat('0.' + '0'.repeat(3) + '1');
+    const valToPlaces = roundValToPlaces + placesModifier;
+    const stringAtPlaces = valToPlaces.toString().slice(0,places+2);
+    return stringAtPlaces;
 }

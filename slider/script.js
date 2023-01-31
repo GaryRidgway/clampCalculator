@@ -46,7 +46,6 @@ $(function() {
       // Get old value
       var previousVal = parseFloat($(this).data('value'));
 
-
       // Save new value
       $(this).data({
         'value': parseFloat(ui.value)
@@ -80,58 +79,8 @@ $(function() {
         }
 
       }
-
-      if (ui.values[1] === 4000) {
-        if (!$(this).find('.range-alert').hasClass('active')) {
-          $(this).find('.range-alert').addClass('active');
-        }
-      } else {
-        if ($(this).find('.range-alert').hasClass('active')) {
-          $(this).find('.range-alert').removeClass('active');
-        }
-      }
     }
   });
-
-  // Prevent the range container from moving the slider
-  $('.range, .range-alert').on('mousedown', function(event) {
-    event.stopPropagation();
-  });
-  
-  function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
-    let sliderInput = JQSelector.find('.range-value.v' + handleIndex + ' input');
-    let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
-    let newSliderInputVal = '';
-    if (sliderData.type === 'px') {
-      
-      newSliderInputVal = valAsDollars(JQSelector, sliderInput.val());
-      // sliderInput.val().replace(/[^0-9 \,\.]/, '');
-    }
-    else if(sliderData.type === 'rem') {
-      console.log('asdf')
-      let valAsRaw = parseFloat(sliderInput.val().replace(/,/g, ''), 10)
-      let places = 3;
-      valAsRaw = Math.round(valAsRaw * 10 * places) / 10 * places;
-      newSliderInputVal = valAsRaw.toString().replace(/[^0-9 \,\.]/, '');
-    }
-
-    sliderInput.val(newSliderInputVal.replace(/[^0-9 \,\.]/, ''));
-    let valAsRaw = parseFloat(newSliderInputVal.replace(/,/g, ''), 10);
-
-    valAsRaw = valAsRaw ? valAsRaw : 0;
-    setInputWithFormatting(sliderInput, valAsRaw);
-
-    sliderTimers.sliderData[JQSelector.attr('id')].delayedSliderAdjustData[handleIndex].valAsRaw = valAsRaw;
-
-    if (instantReplace) {
-      JQSelector.slider(
-        "values",
-        handleIndex,
-        sliderData.delayedSliderAdjustData[handleIndex].valAsRaw
-      );
-      resetDelayedSliderAdjustData(JQSelector);
-    }
-  }
   
   function timedSetSliderVariables(JQSelector, handleIndex) {
     const sliderRange = JQSelector.find('.ui-slider-range');
@@ -141,8 +90,6 @@ $(function() {
     sliderTimer(JQSelector, true);
 
     let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
-  
-    setSliderVariables(JQSelector, handleIndex);
 
     if (!sliderData.sliderAdjustIsTiming) {
       sliderTimers.sliderData[JQSelector.attr('id')].sliderAdjustIsTiming = true;
