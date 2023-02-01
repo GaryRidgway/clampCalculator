@@ -1,0 +1,7 @@
+<svg id="trianglePath" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 5">
+  <defs>
+    <clipPath id="trianglePathClip">
+      <path d="M-0-0l10,0l-5,5z"/>
+    </clipPath>
+  </defs>
+</svg>

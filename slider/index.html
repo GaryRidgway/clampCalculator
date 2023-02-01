@@ -3,12 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>ModGearSlider</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel+Decorative&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="../css/styles.css">
 
 </head>
 <body>
+
+  <svg id="trianglePath" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px">
+    <defs>
+        <clipPath id="trianglePathClip">
+          <path d="M-0-0l10,0l-5,5z"/>
+        </clipPath>
+    </defs>
+    </svg>
+
+  <div class="background-texture"></div>
+  <div class="main-title">
+    <div class="decorator one"></div>
+    <div class="decorator two"></div>
+    <div class="decorator three"></div>
+    <h1>
+      Clamp calculator
+    </h1>
+  </div>
   <div class="sliders-and-graph">
     <div class="container">
       <div class="slider-wrapper">
