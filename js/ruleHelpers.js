@@ -1,3 +1,14 @@
+const waitQueryReplace = async (queryString = null) => {
+  waitQueryReplaceData.queryString = queryString ? queryString : waitQueryReplaceData.queryString;
+  await delayInstance(waitQueryReplaceData.patience);
+  if (Date.now() > waitQueryReplaceData.timer + waitQueryReplaceData.patience) {
+    window.history.replaceState(null, '', waitQueryReplaceData.queryString);
+  }
+  else {
+    waitQueryReplace();
+  }
+};
+
 function getReferences() {
   let minWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v0 input').value.replace(/,/g, ''), 10);
   let maxWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v1 input').value.replace(/,/g, ''), 10);
@@ -93,7 +104,8 @@ function calcRule(auto=false, doAlert = true, userAuto = false) {
     queryString += '&auto';
   }
 
-  window.history.pushState('', '', window.location.pathname + queryString);
+  waitQueryReplaceData.timer = Date.now();
+  waitQueryReplace(window.location.pathname + queryString);
 }
 
 function calcRawRule(refs) {

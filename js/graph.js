@@ -92,13 +92,30 @@ function scaleMap (number, inMin, inMax, outMin, outMax) {
 }
 
 function setGraphVars(fontMin, fontMax, widthMin, widthMax) {
-    fontSize.min = fontMin;
-    fontSize.max = fontMax;
-    windowSize.min = widthMin;
-    windowSize.max = widthMax;
+    setSingleGraphVar('minWidth',     widthMin);
+    setSingleGraphVar('maxWidth',     widthMax);
+    setSingleGraphVar('minFontSize',  fontMin );
+    setSingleGraphVar('maxFontSize',  fontMax );
 
     graphConfig.widthMax = $('#slider-range0').slider("option", "max");
     graphConfig.fontMax = $('#slider-range1').slider("option", "max");
+}
+
+function setSingleGraphVar(key, value) {
+    switch(key) {
+        case 'minWidth':
+            windowSize.min = value;
+            break;
+        case 'maxWidth':
+            windowSize.max = value;
+            break;
+        case 'minFontSize':
+            fontSize.min = value;
+            break;
+        case 'maxFontSize':
+            fontSize.max = value;
+            break;
+      }
 }
 
 function setLineDash(list) {

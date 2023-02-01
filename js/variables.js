@@ -1,8 +1,19 @@
+const delayInstance = ms => new Promise(res => setTimeout(res, ms));
+
 // Calc rule.
 remFactor = 16;
 let queryString;
 let urlParams;
 let paramKeys;
+let waitQueryReplaceData = {
+    patience: 500,
+    timer: 0,
+    queryString: ''
+};
+
+queryString = window.location.search;
+urlParams = new URLSearchParams(queryString);
+paramKeys = Array.from(urlParams.keys());
 
 // Graph.
 const a11yTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');

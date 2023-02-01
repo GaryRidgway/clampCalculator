@@ -1,8 +1,3 @@
-remFactor = 16;
-let queryString;
-let urlParams;
-let paramKeys;
-
 document.addEventListener('DOMContentLoaded', function () {
   queryString = window.location.search;
   urlParams = new URLSearchParams(queryString);

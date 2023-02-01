@@ -10,7 +10,6 @@
 </head>
 <body>
   <div class="sliders-and-graph">
-
     <div class="container">
       <div class="slider-wrapper">
         <div id="slider-range0" data-slider-type="px">
@@ -19,7 +18,7 @@
               <span class="range-value v0">
                 <div class="input-wrap">
                   <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="600">
+                  <input type="text" value="600" data-js-changeable="true" name="Minimum width">
                 </div>
                 <span>px</span>
               </span>
@@ -27,7 +26,7 @@
               <span class="range-value v1">
                 <div class="input-wrap">
                   <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="1310">
+                  <input type="text" value="1310" data-js-changeable="true" name="Maximum width">
                 </div>
                 <span>px</span>
               </span>
@@ -62,7 +61,7 @@
               <span class="range-value v0">
                 <div class="input-wrap">
                   <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="1.75">
+                  <input type="text" value="1.75" data-js-changeable="true" name="Minimum font size">
                 </div>
                 <span>rem</span>
               </span>
@@ -70,7 +69,7 @@
               <span class="range-value v1">
                 <div class="input-wrap">
                   <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="2.525">
+                  <input type="text" value="2.525" data-js-changeable="true" name="Maximum font size">
                 </div>
                 <span>rem</span>
               </span>
@@ -103,14 +102,6 @@
     </div>
   </div>
 
-  <label for="minWidth">Minimum width:</label>
-  <input type="number" id="minWidth" data-js-changeable="true" name="minimum width">px<br><br>
-  <label for="maxWidth">Maximum width:</label>
-  <input type="number" id="maxWidth" data-js-changeable="true" name="ending width">px<br><br>
-  <label for="minFontSize">Minimum font-size:</label>
-  <input type="number" id="minFontSize" data-js-changeable="true" name="minimum font-size">rem<br><br>
-  <label for="maxFontSize">Ending font-size:</label>
-  <input type="number" id="maxFontSize" data-js-changeable="true" name="ending font-size">rem<br><br>
   <button id='calc_rule' type="button" onclick="calcRule()">Calculate clamp rule</button>
   <div id='output' class='preformatted'></div>
 

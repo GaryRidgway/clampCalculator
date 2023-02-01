@@ -1,6 +1,8 @@
 function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
   let sliderInput = JQSelector.find('.range-value.v' + handleIndex + ' input');
   let sliderData = sliderTimers.sliderData[JQSelector.attr('id')];
+  
+  
   let newSliderInputVal = valAsDollars(JQSelector, sliderInput.val());
   if (sliderData.type === 'px') {
     
@@ -9,6 +11,9 @@ function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
   else if(sliderData.type === 'rem') {
     const valAsRaw = parseFloat(sliderInput.val().replace(/,/g, ''), 10);
     newSliderInputVal = floatStringWithExplicitPlaces(valAsRaw, 3);
+  }
+  else {
+    console.log('???????????????????');
   }
 
   JQSelector.find('.range-value.v' + handleIndex + ' input').val(newSliderInputVal.replace(/[^0-9 \,\.]/, ''));
@@ -27,11 +32,7 @@ function setSliderVariables(JQSelector, handleIndex, instantReplace = false) {
     );
     resetDelayedSliderAdjustData(JQSelector);
   }
-
-  triggerDataRebuild();
 }
-
-const delayInstance = ms => new Promise(res => setTimeout(res, ms));
 
 const waitRemove = async (JQSelector) => {
     await delayInstance(sliderTimers.sliderPatience);
@@ -65,14 +66,12 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
         // VALIDATION
         // On the low.
         const min = JQSelector.slider("option", "min");
-        // console.log(min, slidervalAsRaw);
         if (slidervalAsRaw < min) {
             slidervalAsRaw = min;
         }
         
         // On the high.
         const max = JQSelector.slider("option", "max");
-        // console.log(max);
         if (slidervalAsRaw > max) {
             slidervalAsRaw = max;
         }
@@ -110,7 +109,6 @@ const waitTriggerSliderAdjust = async (JQSelector, handleIndex) => {
         resetDelayedSliderAdjustData(JQSelector);
         
         sliderTimers.sliderData[JQSelector.attr('id')].sliderAdjustIsTiming = false;
-        triggerDataRebuild();
       }
     else {
         waitTriggerSliderAdjust(JQSelector,handleIndex) ;
@@ -256,10 +254,16 @@ function timedSetSliderVariables(JQSelector, handleIndex) {
   }
 }
 
-function setSliderInputValue(JQSelector, handleIndex) {
-  const sliderValueAsInt = JQSelector.slider("values")[handleIndex];
-  const handle = JQSelector.find('.range-value.v' + handleIndex + ' input');
-  handle.val(valAsDollars(JQSelector, sliderValueAsInt));
+function setSliderInputValue(JQSelector, handleIndex, explicitValue = null) {
+  let sliderValueAsInt;
+  if (explicitValue) {
+    sliderValueAsInt = explicitValue;
+  }
+  else {
+    sliderValueAsInt = JQSelector.slider("values")[handleIndex];
+  }
+
+  JQSelector.find('.range-value.v' + handleIndex + ' input').val(valAsDollars(JQSelector, sliderValueAsInt));
   modWidthMachine(JQSelector);
 }
 
@@ -281,6 +285,7 @@ function modWidthMachine(JQSelector) {
 
 function setAndInitialize(JQSelector, handleIndex) {
   initSliderData(JQSelector);
+  setSliderVariables(JQSelector, handleIndex, true);
   const input = JQSelector.find('.range-value.v' + handleIndex + ' input');
   modWidthMachine(JQSelector);
   setSliderVariables(JQSelector, handleIndex, null, true);
@@ -292,22 +297,24 @@ function setAndInitialize(JQSelector, handleIndex) {
   JQSelector.find('.ui-slider-handle').removeAttr('tabindex');
 }
 
+// https://forum.jquery.com/topic/slider-value-incorrect.
 function doSlide(JQSelector, ui) {
   // Update the range container values upon sliding
-  setSliderInputValue(JQSelector, 0);
-  setSliderInputValue(JQSelector, 1);
+  const handle = $(ui.handle).index() - 1;
+  setSliderInputValue(JQSelector, handle, ui.value);
 
   // Get old value
   var previousVal = parseFloat(JQSelector.data('value'));
-  sliderTimers.sliderData[JQSelector.attr('id')]
 
+  // Do we need this?
   // Save new value
-  JQSelector.data({
-    'value': parseFloat(ui.value)
-  });
+  // const dataHandle = 'data' + handle;
+  // JQSelector.data({
+  //   dataHandle : parseFloat(JQSelector.slider('values')[handle])
+  // }[dataHandle]);
 
   // Figure out which handle is being used
-  if (ui.values[0] == ui.value) {
+  if (handle === 0) {
 
     // Left handle
     if (previousVal > parseFloat(ui.value)) {
@@ -349,16 +356,13 @@ function doSlide(JQSelector, ui) {
 // This gets the necessary data from sliders.
 // This is not a flexible function.
 function getSliderValues() {
-  let size = $('#slider-range1').slider("option", "values");
-  let width = $('#slider-range0').slider("option", "values");
-
   let fontSize = {
-    min: size[0],
-    max: size[1],
+    min: parseFloat($('#slider-range1').find('.v0 input').val().replace(/,/g, '')),
+    max: parseFloat($('#slider-range1').find('.v1 input').val().replace(/,/g, '')),
   };
   let windowSize = {
-    min: width[0],
-    max: width[1],
+    min: parseFloat($('#slider-range0').find('.v0 input').val().replace(/,/g, '')),
+    max: parseFloat($('#slider-range0').find('.v1 input').val().replace(/,/g, '')),
   };
 
   return {
