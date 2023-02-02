@@ -56,6 +56,18 @@ body {
 
 .main-title {
   position: relative;
+  filter:
+    drop-shadow(0.3px 0.5px 0.7px hsl(var(--bacg-shadow) / 34%))
+    drop-shadow(0.8px 1.6px 2px hsl(var(--bacg-shadow) / 34%))
+    drop-shadow(2.1px 4.1px 5.2px hsl(var(--bacg-shadow) / 34%))
+    drop-shadow(5px 10px 12.6px hsl(var(--bacg-shadow) / 34%));
+}
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  color: #363636;
+  font-size: 3rem;
+  padding-top: 21px;
 }
 
 .main-title h1,
