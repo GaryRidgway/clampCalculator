@@ -431,13 +431,28 @@ div[data-slider-type="rem"] .range-value {
   position: relative;
   aspect-ratio: var(--aspect-ratio);
   width: 100%;
+  display: flex;
+  background-color: var(--bg-color);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+#graphParent #graphMeasurementContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #202124;
+  border-radius: 4px;
+  filter: var(--blue-drop-shadow);
 }
 
 #graphParent canvas {
-  border: 1px solid #5e5e5e;
+  /* border: 1px solid #5e5e5e; */
   max-width: 100%;
   max-height: 100%;
   aspect-ratio: var(--aspect-ratio);
+  background-color: #202124;
+  border-radius: 4px;
 }
 
 #graphParent .positioner {
@@ -474,4 +489,57 @@ div[data-slider-type="rem"] .range-value {
 
 .bRight {
   top: 100%;
+}
+
+#canvasHoverTooltip,
+#canvasHoverTooltip:before,
+#canvasHoverTooltip:after {
+  --rem-size: 1rem;
+  --adj-rem-size: calc(var(--rem-size) * 0.75);
+}
+
+#canvasHoverTooltip {
+  top: 0;
+  left: 0;
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  color: #434343;
+  transform: translate(-50%, -100%);
+  z-index: 1;
+  filter: var(--blue-drop-shadow);
+}
+
+#canvasHoverTooltip.hidden {
+  display: none;
+}
+
+#canvasHoverTooltip .sizing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: max(calc(var(--adj-rem-size) * 0.5), 0.5rem);
+}
+
+#canvasHoverTooltip .sizing-container:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  top: calc(100% - 2px);
+  transform: translateY(calc(-1 * max(calc(var(--adj-rem-size) * 0.5), 0.5rem)));
+  border: max(calc(var(--adj-rem-size) * 0.5), 0.5rem) solid transparent;
+  border-top-color: #fafafa;
+  background: transparent;
+}
+
+#canvasHoverTooltip .sizing-container span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--rem-size);
+  line-height: var(--rem-size);
+  background: #fafafa;
+  position: relative;
+  padding: 6px max(calc(var(--adj-rem-size)), 1rem);
+  border-radius: max(calc(var(--rem-size) * 1.2), 1rem);
 }

@@ -1,7 +1,7 @@
 const delayInstance = ms => new Promise(res => setTimeout(res, ms));
 
 // Calc rule.
-remFactor = 16;
+const remFactor = 16;
 let queryString;
 let urlParams;
 let paramKeys;

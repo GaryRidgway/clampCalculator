@@ -109,12 +109,11 @@ function calcRule(auto=false, doAlert = true, userAuto = false) {
 }
 
 function calcRawRule(refs) {
-    // And calculate the rule.
-  const slope = calcSlope(refs.minWidth, refs.maxWidth, refs.minFontSizePix, refs.maxFontSizePix);
-  const slopeAtWidth = Math.round(slope*100 * 10000) / 10000;
-  const intercept = calcIntercept(slope, refs.minWidth, refs.minFontSizePix);
-  const rIntercept = Math.round(intercept * 10000) / 10000;
-  const operator = (intercept<0) ? '-' : '+';
+  // And calculate the rule.
+  const equationValues = getLinearEquationValues(refs);
+  const slopeAtWidth = equationValues.slopeAtWidth;
+  const rIntercept = equationValues.rIntercept;
+  const operator = equationValues.operator;
 
   const prefVal = 'calc(' + slopeAtWidth + 'vw ' + operator + ' ' + Math.abs(rIntercept) +'rem)';
   const minFontVal = refs.minFontSize;
@@ -123,6 +122,30 @@ function calcRawRule(refs) {
   const clampRule =  'clamp(' + minFontVal + 'rem, ' + prefVal + ', ' + maxFontVal + 'rem);';
 
   return clampRule;
+}
+
+function getLinearEquationValues(refs, rem = false) {
+  const slope = rem ? 
+    calcSlope(refs.minWidth, refs.maxWidth, refs.minFontSize, refs.maxFontSize) :
+    calcSlope(refs.minWidth, refs.maxWidth, refs.minFontSizePix, refs.maxFontSizePix)
+  ;
+  // console.log(refs.minWidth);
+  // console.log('^^^');
+  const slopeAtWidth = Math.round(slope*100 * 10000) / 10000;
+  const intercept = rem ? 
+    calcIntercept(slope, refs.minWidth, refs.minFontSize) :
+    calcIntercept(slope, refs.minWidth, refs.minFontSizePix)
+  ;
+  const rIntercept = Math.round(intercept * 10000) / 10000;
+  const operator = (intercept<0) ? '-' : '+';
+
+  return {
+    slope: slope,
+    slopeAtWidth: slopeAtWidth,
+    intercept: intercept,
+    rIntercept: rIntercept,
+    operator: operator
+  };
 }
 
 function calcSlope(minWidth, maxWidth, minFontSize, maxFontSize) {

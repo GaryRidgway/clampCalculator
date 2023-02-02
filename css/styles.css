@@ -4,6 +4,14 @@
   --prbg-color: #dddddd;
   --prbg-border-color: #c9c9c9;
   --aspect-ratio : 16 / 9;
+  --bg-color: hsl(210deg 86% 63% / 100%);
+  --bg-color-shad: 210deg 86% 40%;
+  --blue-drop-shadow : 
+    drop-shadow(0.3px 0.5px 0.7px hsl(var(--bg-color-shad) / 34%))
+    drop-shadow(0.8px 1.6px 2px hsl(var(--bg-color-shad) / 34%))
+    drop-shadow(2.1px 4.1px 5.2px hsl(var(--bg-color-shad) / 34%))
+    drop-shadow(5px 10px 12.6px hsl(var(--bg-color-shad) / 34%))
+  ;
 }
 
 @media (prefers-color-scheme: dark) {

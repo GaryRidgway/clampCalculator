@@ -1,7 +1,11 @@
+// https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
+let canvasHoverTooltip;
+
 function setup() {
     const canvas = createCanvas(graphConfig.dimX, graphConfig.dimY);
+
     // https://p5js.org/reference/#/p5.Element/parent
-    canvas.parent('graphParent');
+    canvas.parent('graphMeasurementContainer');
     setGraphVars(1.75, 2.525, 600, 1310);
     stroke(a11yTextColor);
     divs.left = createDiv('<div class="data-display"></div>');
@@ -11,17 +15,20 @@ function setup() {
 
     Object.keys(divs).forEach(function(div) {
         divs[div].addClass('positioner ' + div);
-        divs[div].parent('graphParent');
+        divs[div].parent('graphMeasurementContainer');
     });
+    canvasHoverTooltip = document.getElementById('canvasHoverTooltip');
     triggerDataRebuild();
 }
   
 function draw() {
-    background(a11yBackgroundColor);
+    const strokeWeightMod = Number(canvas.style.width.replace(/px$/, '')) / canvas.clientWidth
+
+    clear();
     translate(0, graphConfig.dimY);
     scale(1, -1);
     fill(a11yBackgroundColor);
-    strokeWeight(2);
+    strokeWeight(2 * strokeWeightMod);
 
     // Dashed vertical lines.
     push();
@@ -36,6 +43,13 @@ function draw() {
             scaleToX(windowSize.max), 0,
             scaleToX(windowSize.max), graphConfig.dimY
         );
+    pop();
+
+    // Mouse cursor Line.
+    push();
+        const mouseXPer = ((mouseX / graphConfig.dimX) * 100);
+        const mouseYPer = ((mouseY / graphConfig.dimY) * 100);
+        manageTooltip(mouseXPer, mouseYPer);
     pop();
 
     // Calc rule lines.
@@ -54,8 +68,8 @@ function draw() {
     );
 
     // Intersect circles.
-    strokeWeight(1.3);
-    const pWidth = 7;
+    strokeWeight(1.3 * strokeWeightMod);
+    const pWidth = 7 * strokeWeightMod ;
 
     circle (
         scaleToX(windowSize.min), scaleToY(fontSize.min),
@@ -69,12 +83,12 @@ function draw() {
     
     circle (
         0, scaleToY(fontSize.min),
-        pWidth*1.5
+        pWidth * 1.5
     );
 
     circle (
         scaleToX(graphConfig.widthMax), scaleToY(fontSize.max),
-        pWidth*1.5
+        pWidth * 1.5
     );
 
 }
@@ -120,4 +134,54 @@ function setSingleGraphVar(key, value) {
 
 function setLineDash(list) {
     drawingContext.setLineDash(list);
+}
+
+function manageTooltip(mouseXPer, mouseYPer) {
+    if (
+        mouseXPer !== 0 &&
+        mouseYPer !== 0
+    ) {
+        if (
+            mouseXPer < 0 || mouseXPer > 100
+            ||
+            mouseYPer < 0 || mouseYPer > 100
+        ) {
+            canvasHoverTooltip.classList.add("hidden");
+        }
+        else {
+            stroke('#35b2ff');
+            line(mouseX, 0, mouseX, graphConfig.dimY);
+
+
+            const refs = getReferences();
+            let widthMax = $('#slider-range0').slider("option", "max");
+            let fontMax = $('#slider-range1').slider("option", "max");
+            const equationValues = getLinearEquationValues(refs, true);
+            const simXVal = scaleMap(
+                mouseXPer,
+                0, 100,
+                0,
+                widthMax
+            )
+
+            const linearSize = ((simXVal * equationValues.slope) + (equationValues.rIntercept * remFactor));
+
+            // Styles.
+            const clampedRemSize = Math.min(
+                Math.max(
+                    refs.minFontSize,
+                    linearSize
+                ),
+                refs.maxFontSize
+            );
+
+            const ratioRemSize = 100 - ((clampedRemSize / fontMax) * 100);
+
+            canvasHoverTooltip.style.setProperty('--rem-size', clampedRemSize + 'rem');
+            canvasHoverTooltip.style.top = ratioRemSize + '%';
+            canvasHoverTooltip.style.left = mouseXPer + '%';
+
+            canvasHoverTooltip.classList.remove("hidden");
+        }
+    }
 }
