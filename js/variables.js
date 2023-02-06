@@ -20,6 +20,8 @@ const a11yTextColor = getComputedStyle(document.documentElement).getPropertyValu
 const a11yBorderColor = getComputedStyle(document.documentElement).getPropertyValue('--prbg-border-color');
 const a11yBackgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bacg-color');
 const aspectRatio = getComputedStyle(document.documentElement).getPropertyValue('--aspect-ratio');
+const marianaGrey = getComputedStyle(document.documentElement).getPropertyValue('--mariana');
+const paperWhite = getComputedStyle(document.documentElement).getPropertyValue('--paper');
 const ARX = parseInt('16 / 9'.split('/')[0]);
 const ARY = parseInt('16 / 9'.split('/')[1]);
 

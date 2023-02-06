@@ -1,22 +1,3 @@
-:root {
-  --text-color: #333333;
-}
-
-@media (prefers-color-scheme: dark) {
-  /* Dark theme styles go here */
-  :root {
-    --text-color: #fafafa;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  /* Light theme styles go here */
-  :root {
-    --text-color: #333333;
-  }
-}
-
-
 html {
   box-sizing: border-box;
 }
@@ -46,10 +27,10 @@ body {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: url(../assets/repeatableTex.png);
+  /* background-image: url(../assets/repeatableTex.png);
   background-repeat: repeat;
   background-size: 336px;
-  filter: contrast(1.5);
+  filter: contrast(1.5); */
   opacity: 0.5;
   z-index: -1;
 }
@@ -161,11 +142,28 @@ sup {
 }
 
 .slider-wrapper {
-  --slider-wrapper-padding-top: 100px;
+  --slider-wrapper-padding-top: 72px;
+  --slider-wrapper-padding-bottom: 36px;
   --slider-wrapper-padding-side: 20px;
-  width: 500px;
-  padding: var(--slider-wrapper-padding-top) var(--slider-wrapper-padding-side);
+  padding: var(--slider-wrapper-padding-top) var(--slider-wrapper-padding-side) var(--slider-wrapper-padding-bottom);
   position: relative;
+  margin: 20px;
+  position: relative;
+  width: calc(100% - 40px);
+  background-color: var(--mariana);
+  border-radius: 4px;
+  box-shadow: var(--mem-box-shadow);
+}
+
+.slider-wrapper:first-child { 
+  margin-bottom: 0;
+}
+
+.slider-spacer {
+  background: linear-gradient(315deg, rgba(31,154,255,1) 0%, rgba(45,114,253,1) 100%);
+  padding: 1px 0;
+  border-radius: 4px;
+  box-shadow: var(--black-box-shadow);
 }
 
 .ui-slider {
@@ -174,14 +172,17 @@ sup {
   height: 20px;
   position: relative;
   border-radius: 100px;
+  box-shadow: 
+    0.3px 0.5px 0.7px hsl(var(--mar-shadow-color-raw) / 0.35),
+    1px 2px 11px -1.7px hsl(var(--mar-shadow-color-raw) / 0.51)
+  ;
 }
 
 .ui-slider-range {
-  background: #71c0ff;
+  background: rgb(255,213,31);
+  background: linear-gradient(315deg, rgba(255,213,31,1) 0%, rgba(253,148,45,1) 100%);
   height: 20px;
   position: absolute;
-  border-top: 1px solid #5d99c8;
-  border-bottom: 1px solid #5d99c8;
   transform: translateY(-1px);
 }
 .ui-slider-range:after {
@@ -310,13 +311,25 @@ div[data-slider-type="rem"] .range-value {
 
 .marker {
   position: absolute;
-  top: calc(100% - var(--slider-wrapper-padding-top));
-  padding-top: 16px;
+  bottom: 0;
+  color: #fafafa;
   font-size: 13px;
-  color: var(--text-color);
   letter-spacing: 0.05em;
-  transform: translateX(-50%);
+  padding: 10px;
 }
+
+.marker:after {
+  display: none;
+}
+
+.marker-0 {
+  left: 0;
+}
+
+.marker-100 {
+  right: 0;
+}
+
 .marker:after {
   content: "";
   width: 1px;
@@ -326,30 +339,6 @@ div[data-slider-type="rem"] .range-value {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.marker-0:after {
-  display: none;
-}
-
-.marker-25 {
-  left: 25%;
-}
-
-.marker-50 {
-  left: 50%;
-}
-
-.marker-75 {
-  left: 75%;
-}
-
-.marker-100 {
-  right: var(--slider-wrapper-padding-side);
-  transform: translateX(50%);
-}
-.marker-100:after {
-  display: none;
 }
 
 .gear-wrapper {
@@ -433,25 +422,26 @@ div[data-slider-type="rem"] .range-value {
   width: 100%;
   display: flex;
   background-color: var(--bg-color);
+  background: linear-gradient(315deg, rgba(31,154,255,1) 0%, rgba(45,114,253,1) 100%);
   padding: 20px;
   border-radius: 4px;
+  box-shadow: var(--black-box-shadow);
 }
 
 #graphParent #graphMeasurementContainer {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #202124;
+  background-color: var(--mariana);
   border-radius: 4px;
-  filter: var(--blue-drop-shadow);
+  box-shadow: var(--mem-box-shadow);
 }
 
 #graphParent canvas {
-  /* border: 1px solid #5e5e5e; */
-  max-width: 100%;
-  max-height: 100%;
+  width:  100% !important;
+  height: 100% !important;
   aspect-ratio: var(--aspect-ratio);
-  background-color: #202124;
+  background-color: var(--mariana);
   border-radius: 4px;
 }
 
@@ -465,6 +455,9 @@ div[data-slider-type="rem"] .range-value {
   position: absolute;
   padding: 4px;
   font-size: 0.9rem;
+  background-color: #fafafa;
+  border-radius: 3rem;
+  padding: 6px 15px;
 }
 
 .left .data-display {
@@ -507,7 +500,7 @@ div[data-slider-type="rem"] .range-value {
   color: #434343;
   transform: translate(-50%, -100%);
   z-index: 1;
-  filter: var(--blue-drop-shadow);
+  filter: var(--black-drop-shadow);
 }
 
 #canvasHoverTooltip.hidden {

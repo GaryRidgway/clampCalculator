@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Cinzel+Decorative&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../css/root.css">
   <link rel="stylesheet" href="../css/styles.css">
 
 </head>
@@ -31,93 +32,6 @@
     </h1>
   </div>
   <div class="sliders-and-graph">
-    <div class="container">
-      <div class="slider-wrapper">
-        <div id="slider-range0" data-slider-type="px">
-          <div class="range-wrapper">
-            <div class="range">
-              <span class="range-value v0">
-                <div class="input-wrap">
-                  <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="600" data-js-changeable="true" name="Minimum width">
-                </div>
-                <span>px</span>
-              </span>
-              <span class="range-divider"></span>
-              <span class="range-value v1">
-                <div class="input-wrap">
-                  <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="1310" data-js-changeable="true" name="Maximum width">
-                </div>
-                <span>px</span>
-              </span>
-            </div>
-    
-            <div class="gear-wrapper">
-              <div class="gear-large gear-one">
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-              </div>
-              <div class="gear-large gear-two">
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="marker marker-0">0px</div>
-        <div class="marker marker-100">2,200px</div>
-      </div>
-  
-  
-      <div class="slider-wrapper">
-        <div id="slider-range1" data-slider-type="rem">
-          <div class="range-wrapper">
-            <div class="range">
-              <span class="range-value v0">
-                <div class="input-wrap">
-                  <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="1.75" data-js-changeable="true" name="Minimum font size">
-                </div>
-                <span>rem</span>
-              </span>
-              <span class="range-divider"></span>
-              <span class="range-value v1">
-                <div class="input-wrap">
-                  <span class="width-machine" aria-hidden="true"></span>
-                  <input type="text" value="2.525" data-js-changeable="true" name="Maximum font size">
-                </div>
-                <span>rem</span>
-              </span>
-            </div>
-  
-            <div class="gear-wrapper">
-              <div class="gear-large gear-one">
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-              </div>
-              <div class="gear-large gear-two">
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-                <div class="gear-tooth"></div>
-              </div>
-            </div>
-          </div>
-        </div>      
-        <div class="marker marker-0">0rem</div>
-        <div class="marker marker-100">4rem</div>
-      </div>
-  
-    </div>
-  
     <div id="graphWrapper">
       <div id="graphParent">
         <div id="graphMeasurementContainer">
@@ -128,6 +42,94 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="container">
+      <div class="slider-spacer">
+        <div class="slider-wrapper">
+          <div id="slider-range0" data-slider-type="px">
+            <div class="range-wrapper">
+              <div class="range">
+                <span class="range-value v0">
+                  <div class="input-wrap">
+                    <span class="width-machine" aria-hidden="true"></span>
+                    <input type="text" value="600" data-js-changeable="true" name="Minimum width">
+                  </div>
+                  <span>px</span>
+                </span>
+                <span class="range-divider"></span>
+                <span class="range-value v1">
+                  <div class="input-wrap">
+                    <span class="width-machine" aria-hidden="true"></span>
+                    <input type="text" value="1310" data-js-changeable="true" name="Maximum width">
+                  </div>
+                  <span>px</span>
+                </span>
+              </div>
+      
+              <div class="gear-wrapper">
+                <div class="gear-large gear-one">
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                </div>
+                <div class="gear-large gear-two">
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="marker marker-0">0px</div>
+          <div class="marker marker-100">2,200px</div>
+        </div>
+    
+        <div class="slider-wrapper">
+          <div id="slider-range1" data-slider-type="rem">
+            <div class="range-wrapper">
+              <div class="range">
+                <span class="range-value v0">
+                  <div class="input-wrap">
+                    <span class="width-machine" aria-hidden="true"></span>
+                    <input type="text" value="1.75" data-js-changeable="true" name="Minimum font size">
+                  </div>
+                  <span>rem</span>
+                </span>
+                <span class="range-divider"></span>
+                <span class="range-value v1">
+                  <div class="input-wrap">
+                    <span class="width-machine" aria-hidden="true"></span>
+                    <input type="text" value="2.525" data-js-changeable="true" name="Maximum font size">
+                  </div>
+                  <span>rem</span>
+                </span>
+              </div>
+    
+              <div class="gear-wrapper">
+                <div class="gear-large gear-one">
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                </div>
+                <div class="gear-large gear-two">
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                  <div class="gear-tooth"></div>
+                </div>
+              </div>
+            </div>
+          </div>      
+          <div class="marker marker-0">0rem</div>
+          <div class="marker marker-100">4rem</div>
+        </div>
+      </div>
+  
     </div>
   </div>
 

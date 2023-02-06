@@ -1,5 +1,9 @@
 // https://gist.github.com/lopspower/03fb1cc0ac9f32ef38f4
 let canvasHoverTooltip;
+colors = {
+    paperWhite: HSLmodify(paperWhite),
+    paperWhiteHalfAlpha: HSLmodify(paperWhite,null,null,0.3),
+}
 
 function setup() {
     const canvas = createCanvas(graphConfig.dimX, graphConfig.dimY);
@@ -7,7 +11,8 @@ function setup() {
     // https://p5js.org/reference/#/p5.Element/parent
     canvas.parent('graphMeasurementContainer');
     setGraphVars(1.75, 2.525, 600, 1310);
-    stroke(a11yTextColor);
+    stroke(colors.paperWhite);
+    fill(30);
     divs.left = createDiv('<div class="data-display"></div>');
     divs.right = createDiv('<div class="data-display"></div>');
     divs.bLeft = createDiv('<div class="data-display"></div>');
@@ -27,12 +32,11 @@ function draw() {
     clear();
     translate(0, graphConfig.dimY);
     scale(1, -1);
-    fill(a11yBackgroundColor);
     strokeWeight(2 * strokeWeightMod);
 
     // Dashed vertical lines.
     push();
-        stroke(a11yBorderColor);
+        stroke(colors.paperWhiteHalfAlpha);
         setLineDash([5, 5]);
         line(
             scaleToX(windowSize.min), 0,
@@ -81,15 +85,15 @@ function draw() {
         pWidth
     );
     
-    circle (
-        0, scaleToY(fontSize.min),
-        pWidth * 1.5
-    );
+    // circle (
+    //     0, scaleToY(fontSize.min),
+    //     pWidth * 1.5
+    // );
 
-    circle (
-        scaleToX(graphConfig.widthMax), scaleToY(fontSize.max),
-        pWidth * 1.5
-    );
+    // circle (
+    //     scaleToX(graphConfig.widthMax), scaleToY(fontSize.max),
+    //     pWidth * 1.5
+    // );
 
 }
 
@@ -149,7 +153,7 @@ function manageTooltip(mouseXPer, mouseYPer) {
             canvasHoverTooltip.classList.add("hidden");
         }
         else {
-            stroke('#35b2ff');
+            stroke('#fec12b');
             line(mouseX, 0, mouseX, graphConfig.dimY);
 
 
@@ -184,4 +188,33 @@ function manageTooltip(mouseXPer, mouseYPer) {
             canvasHoverTooltip.classList.remove("hidden");
         }
     }
+}
+
+function HSLmodify(HSL, saturation = null, lightness = null, alpha = null) {
+    splitHSL = HSL
+        .replace('hsl(', '')
+        .replace('hsla(', '')
+        .replace(')', '')
+        .replace(/\s/g, '')
+        .split(',')
+    ;
+
+    const ALPHA = alpha || splitHSL[3] ? 'a' : '';
+
+    let finalColor = 
+        'hsl' + ALPHA + '(' +
+        splitHSL[0] +
+        ', ' +
+        (saturation ? saturation : splitHSL[1]) +
+        ', ' +
+        (lightness  ? lightness  : splitHSL[2])
+    ;
+
+    if (alpha || splitHSL[3]) {
+        finalColor += ', ' + (alpha ? alpha : splitHSL[3])
+    }
+
+    finalColor += ')';
+
+    return finalColor;
 }

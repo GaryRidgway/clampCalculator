@@ -306,13 +306,6 @@ function doSlide(JQSelector, ui) {
   // Get old value
   var previousVal = parseFloat(JQSelector.data('value'));
 
-  // Do we need this?
-  // Save new value
-  // const dataHandle = 'data' + handle;
-  // JQSelector.data({
-  //   dataHandle : parseFloat(JQSelector.slider('values')[handle])
-  // }[dataHandle]);
-
   // Figure out which handle is being used
   if (handle === 0) {
 

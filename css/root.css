@@ -1,0 +1,74 @@
+:root {
+    --text-color: #333333;
+    --bacg-color: var(--mariana);
+    --paper: hsla(0, 0%, 98%, 1);
+    --prbg-color: #dddddd;
+    --prbg-border-color: #c9c9c9;
+    --aspect-ratio : 16 / 9;
+    --blue-drop-shadow: 
+        drop-shadow(0.3px 0.5px 0.7px hsl(var(--bg-color-shad) / 50%))
+        drop-shadow(0.8px 1.6px 2px hsl(var(--bg-color-shad) / 50%))
+        drop-shadow(2.1px 4.1px 5.2px hsl(var(--bg-color-shad) / 50%))
+        drop-shadow(5px 10px 12.6px hsl(var(--bg-color-shad) / 50%))
+    ;
+
+
+
+    --bg-color: hsl(210deg 86% 63% / 100%);
+    /* Memory */
+    --memory-h: 207;
+    --memory-s: 100%;
+    --memory-l: 56%;
+    --memory-shadow-color: hsl(var(--memory-h) var(--memory-s) var(--memory-l) / 100%);
+    --mem-shadow-s: 90%;
+    --mem-shadow-l: 34%;
+    --memory-shadow-color: var(--memory-h) var(--mem-shadow-s) var(--mem-shadow-l);
+    --dbds-color: var(--memory-shadow-color);
+    --mem-box-shadow:
+        0.3px 0.5px 0.7px hsl(var(--memory-shadow-color) / 0.49),
+        5px 10px 13.9px -1.7px hsl(var(--memory-shadow-color) / 0.71);
+    --deep-blue-drop-shadow:
+        drop-shadow(0.3px 0.5px 0.7px  hsl(var(--dbds-color) / 0.49))
+        drop-shadow(5px   10px  13.9px hsl(var(--dbds-color) / 0.71))
+    ;
+    
+    --mariana-h: 255;
+    --mariana-s: 6%;
+    --mariana-l: 13%;
+    --mariana-raw: var(--mariana-h), var(--mariana-s), var(--mariana-l);
+    --mariana: hsl(var(--mariana-h), var(--mariana-s), var(--mariana-l), 1);
+    --mar-shadow-s: 11%;
+    --mar-shadow-l: 4%;
+    --mar-shadow-color-raw: var(--mariana-h) var(--mar-shadow-s) var(--mar-shadow-l);
+    --mar-shadow-color: hsl(var(--mariana-h), var(--mar-shadow-s), var(--mar-shadow-l), 1);
+    --bl-color-shad: 225 9% 4%;
+    --bds-color: var(--bl-color-shad);
+    --black-drop-shadow:
+        drop-shadow(0.3px 0.5px 0.7px  hsl(var(--shadow-color) / var(--dbds-opacity)))
+        drop-shadow(5px   10px  13.9px hsl(var(--shadow-color) / var(--dbds-opacity)))
+        drop-shadow(5.1px 6.3px 7px    hsl(var(--shadow-color) / var(--dbds-opacity)))
+    ;
+
+    --black-box-shadow:
+        0.3px 0.5px 5px hsl(var(--mar-shadow-color-raw) / 0.4),
+        5px 10px 13.9px -1.7px hsl(var(--mar-shadow-color-raw) / 0.55)
+    ;
+  }
+  
+/* @media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #e8eaed;
+        --bacg-color: #202124;
+        --prbg-color: ##353535;
+        --prbg-border-color: #555555;
+    }
+}
+  
+@media (prefers-color-scheme: light) {
+    :root {
+        --text-color: #333333;
+        --bacg-color: #fafafa;
+        --prbg-color: #dddddd;
+        --prbg-border-color: #c9c9c9;
+    }
+} */
