@@ -227,7 +227,7 @@ function initSliders(sliders) {
 function floatStringWithExplicitPlaces(float, places) {
     const multiplier = Math.pow(10, places);
     const roundValToPlaces = Math.round(float * multiplier) / multiplier;
-    const placesModifier = parseFloat('0.' + '0'.repeat(3) + '1');
+    const placesModifier = parseFloat('0.' + '0'.repeat(places) + '1');
     const valToPlaces = roundValToPlaces + placesModifier;
     const stringAtPlaces = valToPlaces.toString().slice(0,places+2);
     return stringAtPlaces;

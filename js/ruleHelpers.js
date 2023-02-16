@@ -10,10 +10,10 @@ const waitQueryReplace = async (queryString = null) => {
 };
 
 function getReferences() {
-  let minWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v0 input').value.replace(/,/g, ''), 10);
-  let maxWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v1 input').value.replace(/,/g, ''), 10);
-  let minFontSize = parseFloat(document.querySelector('#slider-range1 .range-value.v0 input').value.replace(/,/g, ''), 10);
-  let maxFontSize = parseFloat(document.querySelector('#slider-range1 .range-value.v1 input').value.replace(/,/g, ''), 10);
+  let minWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v0 input, input#minWidth').value.replace(/,/g, ''), 10);
+  let maxWidth = parseFloat(document.querySelector('#slider-range0 .range-value.v1 input, input#maxWidth').value.replace(/,/g, ''), 10);
+  let minFontSize = parseFloat(document.querySelector('#slider-range1 .range-value.v0 input, input#minFontSize').value.replace(/,/g, ''), 10);
+  let maxFontSize = parseFloat(document.querySelector('#slider-range1 .range-value.v1 input, input#maxFontSize').value.replace(/,/g, ''), 10);
 
   let minFontSizePix = minFontSize * remFactor;
   let maxFontSizePix = maxFontSize * remFactor;
